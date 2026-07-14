@@ -36,8 +36,8 @@ behind it (§III.10 step 5).
 
 | Module                | §         | Status    |
 | --------------------- | --------- | --------- |
-| `lib/slug.ts`         | II.5.4    | NOT BUILT |
-| `lib/title.ts`        | II.5.3    | NOT BUILT |
+| `lib/slug.ts`         | II.5.4    | BUILT     |
+| `lib/title.ts`        | II.5.3    | BUILT     |
 | `lib/tags.ts`         | II.5.2    | NOT BUILT |
 | `lib/wikilinks.ts`    | II.5.1    | NOT BUILT |
 | `lib/search-query.ts` | II.6.3    | NOT BUILT |
