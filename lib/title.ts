@@ -15,7 +15,9 @@ const MAX_TITLE = 100;
 
 /** Strip a leading `---` fenced YAML block, if present at the very start. */
 function stripLeadingFrontmatter(body: string): string {
-  const match = /^﻿?---[ \t]*\r?\n[\s\S]*?\r?\n---[ \t]*(?:\r?\n|$)/.exec(body);
+  const match = /^\uFEFF?---[ \t]*\r?\n[\s\S]*?\r?\n---[ \t]*(?:\r?\n|$)/.exec(
+    body,
+  );
   return match ? body.slice(match[0].length) : body;
 }
 
@@ -78,7 +80,7 @@ export function deriveTitle(body: string): string {
     if (h1 === null) {
       const m = /^#[ \t]+(.+)$/.exec(line);
       if (m) {
-        const cleaned = cleanHeading(m[1]);
+        const cleaned = cleanHeading(m[1]!);
         if (cleaned !== "") h1 = cleaned;
       }
     }
