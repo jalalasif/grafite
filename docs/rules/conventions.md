@@ -92,3 +92,18 @@ schema → lib`. Never upward. (§II.4)
   convention (distinct class for broken links).
 - Nested-tag hierarchy and directory-as-tag import follow **Obsidian**'s vault
   layout, so exports round-trip.
+- A tag must contain at least one ASCII letter, so `#404` is **not** a tag —
+  **Obsidian**'s rule (the spec was silent on numeric-only tags).
+- A tag's leading boundary is start-of-text or whitespace; this excludes URL
+  fragments (`…/page#anchor`) and `a#b`, satisfying the §II.5.2 URL rule cleanly.
+- Tag bodies are matched as ASCII `[A-Za-z0-9_/-]`; non-ASCII letters are not
+  part of a tag body (keeps tag paths storage-clean; spec listed the char set
+  explicitly).
+
+## Code-region scanning (lib/code-scan.ts)
+
+- Shared by the wikilink and tag parsers so "not parsed inside code" has one
+  source of truth (§I.12). Simplifications: a fence is a line starting with 3+
+  backticks/tildes and closes on the same fence character; inline code is
+  matched within a single line (an opening run of N backticks closes on the
+  next run of exactly N; an unmatched run is literal).

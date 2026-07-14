@@ -38,8 +38,9 @@ behind it (§III.10 step 5).
 | --------------------- | --------- | --------- |
 | `lib/slug.ts`         | II.5.4    | BUILT     |
 | `lib/title.ts`        | II.5.3    | BUILT     |
-| `lib/tags.ts`         | II.5.2    | NOT BUILT |
-| `lib/wikilinks.ts`    | II.5.1    | NOT BUILT |
+| `lib/tags.ts`         | II.5.2    | BUILT     |
+| `lib/wikilinks.ts`    | II.5.1    | BUILT     |
+| `lib/code-scan.ts`    | II.5.1/2  | BUILT     |
 | `lib/search-query.ts` | II.6.3    | NOT BUILT |
 | `lib/frontmatter.ts`  | II.5.6    | NOT BUILT |
 | `lib/markdown.ts`     | II.5.5    | NOT BUILT |
