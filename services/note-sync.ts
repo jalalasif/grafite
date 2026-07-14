@@ -5,7 +5,7 @@ import { tagsRepo } from "@/db/repositories/tags";
 import { linksRepo } from "@/db/repositories/links";
 import { deriveTitle } from "@/lib/title";
 import { slugify, uniqueSlug } from "@/lib/slug";
-import { parseTags } from "@/lib/tags";
+import { parseTags, normaliseTagPath } from "@/lib/tags";
 import { parseWikilinks } from "@/lib/wikilinks";
 
 /**
@@ -22,9 +22,16 @@ import { parseWikilinks } from "@/lib/wikilinks";
 // Mirrors lib/markdown's asset detection: an embedded image target, not a note.
 const IMAGE_TARGET = /\.(?:png|jpe?g|gif|webp|svg|avif|bmp)$/i;
 
-async function cascade(tx: Db, note: Note): Promise<void> {
-  // (2, 3) tags
-  const tagPaths = [...new Set(parseTags(note.body).map((t) => t.path))];
+async function cascade(
+  tx: Db,
+  note: Note,
+  extraTagPaths: string[] = [],
+): Promise<void> {
+  // (2, 3) tags — inline #tags plus any caller-supplied paths (import: the
+  // directory-derived and frontmatter tags, which are not in the body).
+  const tagPaths = [
+    ...new Set([...parseTags(note.body).map((t) => t.path), ...extraTagPaths]),
+  ];
   const leafIds: string[] = [];
   for (const path of tagPaths) {
     leafIds.push((await tagsRepo.materializePath(tx, path)).id);
@@ -56,6 +63,12 @@ async function cascade(tx: Db, note: Note): Promise<void> {
 
 export interface CreateNoteInput {
   body: string;
+  /** Explicit title (e.g. import uses the filename); else derived from body. */
+  title?: string;
+  /** Explicit slug seed; else the title. Uniquified either way. */
+  slug?: string;
+  /** Extra tag paths to attach beyond inline #tags (import: dir + frontmatter). */
+  extraTags?: string[];
   isDaily?: boolean;
   dailyDate?: string;
 }
@@ -67,10 +80,14 @@ export async function createNote(
 ): Promise<Note> {
   return db.transaction(async (tx) => {
     const isDaily = input.isDaily ?? false;
-    const title = isDaily ? input.dailyDate! : deriveTitle(input.body);
+    const title = isDaily
+      ? input.dailyDate!
+      : (input.title ?? deriveTitle(input.body));
     const slug = isDaily
       ? input.dailyDate!
-      : await uniqueSlug(slugify(title), (s) => notesRepo.slugExists(tx, s));
+      : await uniqueSlug(slugify(input.slug ?? title), (s) =>
+          notesRepo.slugExists(tx, s),
+        );
     const note = await notesRepo.create(tx, {
       title,
       slug,
@@ -78,7 +95,10 @@ export async function createNote(
       isDaily,
       dailyDate: input.dailyDate ?? null,
     });
-    await cascade(tx, note);
+    const extraTagPaths = (input.extraTags ?? [])
+      .map(normaliseTagPath)
+      .filter((p) => p !== "");
+    await cascade(tx, note, extraTagPaths);
     return note;
   });
 }

@@ -60,6 +60,8 @@ export default defineConfig({
         "**/*.d.ts",
         "themes/_template.ts",
         "**/index.ts",
+        // DT-5 external boundary — needs real Vercel Blob credentials/network.
+        "services/blob-vercel.ts",
       ],
       thresholds: {
         "lib/**": {

@@ -1,7 +1,6 @@
 import { describe, it, expect, beforeAll, afterAll } from "vitest";
 import { createTestDb, withRollback, type TestDb } from "@/db/testing";
 import { createNote, updateNote } from "./note-sync";
-import { notesRepo } from "@/db/repositories/notes";
 import { tagsRepo } from "@/db/repositories/tags";
 import { linksRepo } from "@/db/repositories/links";
 
@@ -89,6 +88,23 @@ describe("createNote", () => {
       expect(
         (await linksRepo.linksFrom(tx, a.id)).map((l) => l.targetId),
       ).toEqual([b.id]);
+    });
+  });
+
+  it("accepts an explicit title, slug seed, and extra tags (import path)", async () => {
+    await run(async (tx) => {
+      const note = await createNote(tx, {
+        body: "just prose, no h1",
+        title: "Calvino",
+        slug: "calvino",
+        extraTags: ["books/fiction", "Books/Fiction"],
+      });
+      expect(note.title).toBe("Calvino");
+      expect(note.slug).toBe("calvino");
+      const names = (await tagsRepo.tagsForNote(tx, note.id)).map(
+        (t) => t.name,
+      );
+      expect(names).toEqual(["books/fiction"]); // normalised + de-duped
     });
   });
 
