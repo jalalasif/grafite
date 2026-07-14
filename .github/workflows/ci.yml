@@ -14,7 +14,9 @@ env:
   # Dummy values so `next build` and validation have something shaped correctly.
   # No secrets — these never touch a real service.
   AUTH_SECRET: ci-dummy-secret-000000000000000000000000
-  AUTH_PASSWORD_HASH: $2b$12$abcdefghijklmnopqrstuvABCDEFGHIJKLMNOPQRSTUVWXYZ012345
+  # bcrypt("grafite-e2e") — a well-formed hash so bcrypt.compare runs cleanly in
+  # the E2E wrong-password spec (no real secret).
+  AUTH_PASSWORD_HASH: $2b$10$vuk3fj/9oFeRej6aTP1IYOuUyYmPckyZQLd3eyB8mqdzHG6ogsSOy
   DATABASE_URL: postgresql://ci:ci@localhost:5432/ci
 
 jobs:

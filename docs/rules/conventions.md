@@ -115,6 +115,17 @@ left(name, len+1) = path||'/'` instead of a `parent_id` recursive CTE.
   part of a tag body (keeps tag paths storage-clean; spec listed the char set
   explicitly).
 
+## Auth (§II.3)
+
+- Single password, no user table. `AUTH_PASSWORD_HASH` is a bcrypt hash;
+  `bcrypt.compare` gives constant-time comparison. Session = a jose HS256 JWT in
+  an HttpOnly, Secure, SameSite=Lax cookie, 30-day expiry.
+- The middleware runs at the **Edge** and uses only jose + zod (Edge-safe) —
+  never bcrypt, which stays in the Node-runtime login route.
+- Login rate limit (5 / IP / 15 min) is an **in-memory sliding window**. It
+  resets on cold start — accepted for a single-user, single-region app (§II.3)
+  rather than reaching for Redis.
+
 ## Markdown pipeline (lib/markdown.ts)
 
 - The wikilink/tag "custom remark plugins" (§II.5.5) are implemented as

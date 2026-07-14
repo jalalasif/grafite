@@ -25,5 +25,17 @@ export default defineConfig({
     url: BASE_URL,
     reuseExistingServer: !process.env.CI,
     timeout: 120_000,
+    // Dummy-but-valid env so middleware/login run without a real .env. The
+    // password hash is bcrypt("grafite-e2e"); DATABASE_URL is a placeholder
+    // (auth/redirect specs don't hit the DB — DB-backed specs are owed against
+    // a real Neon endpoint).
+    env: {
+      AUTH_SECRET: "e2e-secret-000000000000000000000000000000",
+      AUTH_PASSWORD_HASH:
+        process.env.AUTH_PASSWORD_HASH ??
+        "$2b$10$vuk3fj/9oFeRej6aTP1IYOuUyYmPckyZQLd3eyB8mqdzHG6ogsSOy",
+      DATABASE_URL:
+        process.env.DATABASE_URL ?? "postgresql://placeholder/placeholder",
+    },
   },
 });
