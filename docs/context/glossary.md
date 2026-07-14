@@ -1,0 +1,24 @@
+# Glossary
+
+Domain vocabulary for Grafite. A term earns a row here once it is reused across
+the codebase.
+
+| Term | Meaning |
+|---|---|
+| **Note** | The atomic unit. Raw markdown `body`, a derived `title`, a stable `slug`, timestamps, soft-delete flag. |
+| **Daily note** | A note bound to a calendar date (`is_daily = true`, `daily_date` set). Exactly one live daily note per date. Title/slug are the ISO date, e.g. `2026-07-15`. |
+| **Tag** | A hierarchical label written inline as `#books/fiction`. Stored as a full-path row (`books/fiction`) plus its `parent_id`-chained ancestors (`books`, `books/fiction`). Matched case-insensitively; display case preserved. |
+| **Nested tag** | A tag with `/` separators. Each segment materialises one `tags` row; only the **leaf** is attached to a note via `note_tags`. Ancestor rollup is a query-time recursive CTE — ancestors are never denormalised onto the note. |
+| **Wikilink** | `[[note-slug]]`, optionally `[[slug\|Display]]`, `[[slug#heading]]`, or `[[slug#heading\|Display]]`. Resolves note→note by slug. |
+| **Embed** | `![[image.png]]` (asset) or `![[note-slug]]` (transclusion). |
+| **Transclusion** | Rendering another note's body inline, **one level deep only**. A transcluded note's own transclusions degrade to plain links — this bounds recursion without cycle detection. |
+| **Backlink** | A note whose body links *to* the current note. Listed with ~120 chars of surrounding context. |
+| **Unlinked mention** | A note whose body contains the current note's *title* as plain text but not as a wikilink. Surfaced via a cheap `ILIKE`, capped at 20. |
+| **Resolved link** | A wikilink whose target slug matches an existing live note. Stored in `links`. |
+| **Unresolved link** | A wikilink whose target slug matches no live note. Stored in `unresolved_links`. **Heals** (promotes to `links`) when the target note is later created. |
+| **Asset** | An uploaded file (screenshot / pasted image) stored in Vercel Blob, with a row in `assets` tracking `blob_url`, `pathname` (for deletion), `filename` (for export), mime, size. |
+| **Vault** | The whole collection of notes + assets. Exportable as a zip that is a **valid Obsidian vault** — the escape hatch the Postgres decision rests on. |
+| **Slug** | A note's stable, kebab-case identifier used in wikilinks and URLs. Assigned at creation and **frozen** — renaming the title never changes it. |
+| **Theme** | A named bundle carrying two **modes** (light, dark) and a set of **font roles**. Light/dark are modes *within* a theme, never separate themes. Runtime-switchable; tokens emit as CSS custom properties. See `design.md`. |
+| **Mode** | `light` or `dark`, selected within a theme. Persisted separately from theme choice. |
+| **Token** | A single design value (a colour, a spacing step, a type size) emitted as a CSS custom property on `:root`. |
