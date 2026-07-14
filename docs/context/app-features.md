@@ -41,8 +41,8 @@ behind it (§III.10 step 5).
 | `lib/tags.ts`         | II.5.2    | BUILT     |
 | `lib/wikilinks.ts`    | II.5.1    | BUILT     |
 | `lib/code-scan.ts`    | II.5.1/2  | BUILT     |
-| `lib/search-query.ts` | II.6.3    | NOT BUILT |
+| `lib/search-query.ts` | II.6.3    | BUILT     |
 | `lib/frontmatter.ts`  | II.5.6    | NOT BUILT |
 | `lib/markdown.ts`     | II.5.5    | NOT BUILT |
-| `lib/contrast.ts`     | Amendment | NOT BUILT |
-| `lib/env.ts`          | II.12     | NOT BUILT |
+| `lib/contrast.ts`     | Amendment | BUILT     |
+| `lib/env.ts`          | II.12     | BUILT     |
