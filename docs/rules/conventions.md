@@ -100,6 +100,25 @@ schema → lib`. Never upward. (§II.4)
   part of a tag body (keeps tag paths storage-clean; spec listed the char set
   explicitly).
 
+## Markdown pipeline (lib/markdown.ts)
+
+- The wikilink/tag "custom remark plugins" (§II.5.5) are implemented as
+  `text`-node visitors. remark keeps `[[…]]`/`#tag`/`![[…]]` as single text
+  nodes and code as separate `code`/`inlineCode` nodes, so code exclusion is
+  automatic and positions stay accurate.
+- **shiki runs after rehype-sanitize** (the spec's pipeline order): sanitize
+  strips dangerous user HTML first, then shiki adds its inline token styles,
+  which therefore survive. Raw HTML in the body is dropped by remark-rehype
+  itself (no `allowDangerousHtml`); sanitize is defence-in-depth. Single theme
+  (`github-light`) for now — dual-theme code colours are a UI-phase polish.
+- **Transclusion** re-renders the target body through a sub-processor with
+  transclusion disabled, so a nested `![[…]]` degrades to a link and cycles
+  terminate (one level deep, §II.5.1).
+- **Added dependencies** (beyond §II.1, justified per §II.1): `unist-util-visit`
+  (runtime) to author the mandated remark plugins; `@types/mdast`, `@types/hast`,
+  `@types/unist` (dev) for their node types. All are core unified-ecosystem
+  packages the mandated pipeline implies.
+
 ## Code-region scanning (lib/code-scan.ts)
 
 - Shared by the wikilink and tag parsers so "not parsed inside code" has one

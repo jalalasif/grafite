@@ -34,15 +34,15 @@ behind it (§III.10 step 5).
 
 ## Domain logic (`lib/`) — the pure foundation
 
-| Module                | §         | Status    |
-| --------------------- | --------- | --------- |
-| `lib/slug.ts`         | II.5.4    | BUILT     |
-| `lib/title.ts`        | II.5.3    | BUILT     |
-| `lib/tags.ts`         | II.5.2    | BUILT     |
-| `lib/wikilinks.ts`    | II.5.1    | BUILT     |
-| `lib/code-scan.ts`    | II.5.1/2  | BUILT     |
-| `lib/search-query.ts` | II.6.3    | BUILT     |
-| `lib/frontmatter.ts`  | II.5.6    | NOT BUILT |
-| `lib/markdown.ts`     | II.5.5    | NOT BUILT |
-| `lib/contrast.ts`     | Amendment | BUILT     |
-| `lib/env.ts`          | II.12     | BUILT     |
+| Module                | §         | Status |
+| --------------------- | --------- | ------ |
+| `lib/slug.ts`         | II.5.4    | BUILT  |
+| `lib/title.ts`        | II.5.3    | BUILT  |
+| `lib/tags.ts`         | II.5.2    | BUILT  |
+| `lib/wikilinks.ts`    | II.5.1    | BUILT  |
+| `lib/code-scan.ts`    | II.5.1/2  | BUILT  |
+| `lib/search-query.ts` | II.6.3    | BUILT  |
+| `lib/frontmatter.ts`  | II.5.6    | BUILT  |
+| `lib/markdown.ts`     | II.5.5    | BUILT  |
+| `lib/contrast.ts`     | Amendment | BUILT  |
+| `lib/env.ts`          | II.12     | BUILT  |
