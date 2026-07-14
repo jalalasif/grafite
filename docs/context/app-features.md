@@ -29,8 +29,8 @@ behind it (§III.10 step 5).
 | 21  | Trash: soft delete, list, restore, permanent delete (+Blob purge)         | II.6.9         | NOT BUILT |
 | 22  | Local-first draft buffer (IndexedDB), conflict prompt, reconnect flush    | II.8           | NOT BUILT |
 | 23  | Auth: single password, JWT cookie, middleware, rate limit                 | II.3           | NOT BUILT |
-| 24  | Theme system: modular, runtime-switchable, light/dark modes, FOUC-free    | Amendment      | NOT BUILT |
-| 25  | Design tokens as CSS custom properties, no hex in components              | II.9/Amendment | NOT BUILT |
+| 24  | Theme system: modular, runtime-switchable, light/dark modes, FOUC-free    | Amendment      | BUILT     |
+| 25  | Design tokens as CSS custom properties, no hex in components              | II.9/Amendment | BUILT     |
 
 ## Domain logic (`lib/`) — the pure foundation
 

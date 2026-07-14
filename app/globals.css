@@ -1,9 +1,9 @@
 @import "tailwindcss";
 
 /*
- * Phase-1 baseline only. The full design-token layer (theme custom properties,
- * data-theme / data-mode) lands in Phase 7 per docs/context/design.md and
- * Amendment 1. Colours below are the neutral pre-theme fallback.
+ * Base styling consumes the theme tokens emitted by themes/tokens.ts. The token
+ * values themselves live on :root[data-theme][data-mode] (injected in the head);
+ * here we only reference them, so there are no colour literals.
  */
 :root {
   color-scheme: light dark;
@@ -13,12 +13,26 @@ html,
 body {
   padding: 0;
   margin: 0;
-  font-family:
-    system-ui,
-    -apple-system,
-    "Segoe UI",
-    Roboto,
-    sans-serif;
+  background: var(--color-bg);
+  color: var(--color-text);
+  font-family: var(--font-ui);
+}
+
+/* The reading measure for prose/rendered note content (§II.9). */
+.prose-measure {
+  max-width: 68ch;
+  line-height: 1.65;
+  font-family: var(--font-reading);
+}
+
+/* Keyboard-first: a visible focus ring on every interactive element (§II.9). */
+:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+}
+
+a {
+  color: inherit;
 }
 
 @media (prefers-reduced-motion: reduce) {

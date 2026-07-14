@@ -101,6 +101,16 @@ left(name, len+1) = path||'/'` instead of a `parent_id` recursive CTE.
   `@next/eslint-plugin-next` directly. TypeScript pinned to `5.9.x` (the native
   TS 7 port and TS 6 violate `typescript-eslint`'s `<6.1.0` peer range).
 
+- **DT-11 — Amendment 1 built out of strict phase order.** With finite budget and
+  the architect away, I built the theme system (Amendment 1's core — themes/,
+  token emission, ThemeProvider/toggle, and the interface + WCAG-AA enforcement
+  tests) after auth (III.5) rather than waiting for its nominal slot inside III.7.
+  Rationale: the architect explicitly amended the spec to emphasise it and it is
+  fully verifiable here (unit + a real-browser toggle E2E), whereas the DB-backed
+  API/UI need the architect's Neon to verify. The rest of III.6/III.7 (note API
+  routes, sidebar, note list, command palette) and III.8/III.9 (editor, import/
+  export/trash UI) are NOT built — see the final report.
+
 ## Borrowed conventions (§I.13)
 
 - Wikilink / unresolved-link / broken-link styling follows **Obsidian**'s

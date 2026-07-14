@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, type FormEvent } from "react";
+import { ThemeToggle } from "@/components/theme/ThemeToggle";
 
 /**
  * Login (§II.3): single password, posted to /api/auth/login which sets the
@@ -34,6 +35,9 @@ export default function LoginPage() {
 
   return (
     <main className="flex min-h-screen items-center justify-center p-6">
+      <div className="absolute right-4 top-4">
+        <ThemeToggle />
+      </div>
       <form
         onSubmit={onSubmit}
         className="flex w-full max-w-sm flex-col gap-4"
