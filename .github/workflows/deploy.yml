@@ -1,0 +1,25 @@
+name: Deploy Gate
+
+# Actual deployment is handled by Vercel's GitHub integration (§II.11) — not a
+# hand-rolled action. This workflow's only job is to make CI status a hard gate:
+# it fails loudly if CI did not pass on main, and Vercel's project setting
+# "only deploy when checks pass" (documented in the README) does the rest.
+
+on:
+  workflow_run:
+    workflows: ["CI"]
+    branches: [main]
+    types: [completed]
+
+jobs:
+  gate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Block deploy if CI was not green
+        if: ${{ github.event.workflow_run.conclusion != 'success' }}
+        run: |
+          echo "CI concluded '${{ github.event.workflow_run.conclusion }}'."
+          echo "Deployment must not proceed on a red build."
+          exit 1
+      - name: CI green
+        run: echo "CI passed on main — Vercel's integration deploys this commit."

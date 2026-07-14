@@ -1,0 +1,33 @@
+@import "tailwindcss";
+
+/*
+ * Phase-1 baseline only. The full design-token layer (theme custom properties,
+ * data-theme / data-mode) lands in Phase 7 per docs/context/design.md and
+ * Amendment 1. Colours below are the neutral pre-theme fallback.
+ */
+:root {
+  color-scheme: light dark;
+}
+
+html,
+body {
+  padding: 0;
+  margin: 0;
+  font-family:
+    system-ui,
+    -apple-system,
+    "Segoe UI",
+    Roboto,
+    sans-serif;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}

@@ -15,16 +15,16 @@ wins on facts, the doc wins on intent.
 
 ## The tree
 
-| Path | What it holds | Update trigger |
-|---|---|---|
-| `context/app-structure.md` | Layer architecture + data model + why each boundary exists | A structural/architectural shift |
-| `context/app-features.md` | Capability ledger; every feature as a row, BUILT / NOT BUILT | A feature/capability shipped |
-| `context/design.md` | The design plan: palette, type, layout, signature, theme architecture | Visual/design change |
-| `context/glossary.md` | Domain terms | A new domain term reused across the codebase |
-| `rules/conventions.md` | Hard rules and invariants; decisions taken under ambiguity | A new hard rule / invariant / resolved ambiguity |
-| `rules/known-bugs.md` | Gotchas, discrepancies, workarounds, pinned regressions | A new gotcha / bug fixed |
-| `reference/codebase-map.md` | The real file tree, annotated | A file created or deleted |
-| `planning/acceptance-grafite.md` | Part IV acceptance checklist; the architect flips these, not Claude | Never flipped by Claude |
+| Path                             | What it holds                                                         | Update trigger                                   |
+| -------------------------------- | --------------------------------------------------------------------- | ------------------------------------------------ |
+| `context/app-structure.md`       | Layer architecture + data model + why each boundary exists            | A structural/architectural shift                 |
+| `context/app-features.md`        | Capability ledger; every feature as a row, BUILT / NOT BUILT          | A feature/capability shipped                     |
+| `context/design.md`              | The design plan: palette, type, layout, signature, theme architecture | Visual/design change                             |
+| `context/glossary.md`            | Domain terms                                                          | A new domain term reused across the codebase     |
+| `rules/conventions.md`           | Hard rules and invariants; decisions taken under ambiguity            | A new hard rule / invariant / resolved ambiguity |
+| `rules/known-bugs.md`            | Gotchas, discrepancies, workarounds, pinned regressions               | A new gotcha / bug fixed                         |
+| `reference/codebase-map.md`      | The real file tree, annotated                                         | A file created or deleted                        |
+| `planning/acceptance-grafite.md` | Part IV acceptance checklist; the architect flips these, not Claude   | Never flipped by Claude                          |
 
 ## Reading order for a returning session
 

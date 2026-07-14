@@ -20,7 +20,7 @@ Hard rules that constrain every change, plus decisions taken under ambiguity
    real Postgres (pglite). A mocked repository test asserts the mock behaves like
    the mock. (§II.10)
 6. **Layers import downward only.** `app → components → services → repositories →
-   schema → lib`. Never upward. (§II.4)
+schema → lib`. Never upward. (§II.4)
 7. **Every API route validates input with zod at the boundary** and returns the
    consistent error shape `{ error: { code, message, details? } }`. (§II.7)
 8. **The PATCH cascade runs in one transaction** and includes link-healing. (§II.7)
@@ -67,6 +67,24 @@ Hard rules that constrain every change, plus decisions taken under ambiguity
 - **DT-5 — Blob/Neon credentials absent.** Both external services are mocked behind
   an interface for tests; real adapters call the SDKs. Listed in the final report's
   NOT DONE / OWED VERIFICATION.
+- **DT-6 — Coverage denominator.** §II.10's "Overall 80%" floor is scoped to the
+  unit/integration-testable core (`lib`, `services`, `db/repositories`, `themes`),
+  not the whole tree. UI surfaces are covered by Playwright (§II.10), which a
+  unit-coverage tool cannot measure; including them would make the denominator
+  meaningless. `vitest.config.ts` `coverage.include` encodes this. More reversible
+  than the alternative (a second coverage tool wired into E2E).
+- **DT-7 — Coverage gate script.** §II.11 lists the coverage step as
+  `pnpm test:unit (vitest run --coverage)` plus a separate `pnpm test:integration`.
+  Implemented instead as `pnpm test:coverage` (`vitest run --coverage`, runs **both**
+  projects) so the services/repositories floors are enforced in one merged report;
+  `test:unit`/`test:integration` remain as focused developer scripts. Same intent,
+  no double-run.
+- **DT-8 — ESLint stack.** `eslint-config-next` 15.5 is eslintrc-only and its
+  plugins are not hoisted under pnpm, so it cannot be consumed cleanly in flat
+  config without `@eslint/eslintrc`. Replaced with a flat config composing
+  `@eslint/js`, `typescript-eslint`, `eslint-plugin-react-hooks`, and
+  `@next/eslint-plugin-next` directly. TypeScript pinned to `5.9.x` (the native
+  TS 7 port and TS 6 violate `typescript-eslint`'s `<6.1.0` peer range).
 
 ## Borrowed conventions (§I.13)
 

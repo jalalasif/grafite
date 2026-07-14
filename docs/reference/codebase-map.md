@@ -5,23 +5,31 @@ filled from the actual tree in the §III.10 reconciliation pass.
 
 > Update trigger: a new file created or deleted.
 
-## Current tree (Phase 0)
+## Current tree (through Phase 1)
 
 ```
-docs/
-  index.md                      — this doc map
-  context/
-    app-structure.md            — layers, data model, boundaries
-    app-features.md             — capability ledger (BUILT/NOT BUILT)
-    design.md                   — design plan + theme architecture
-    glossary.md                 — domain vocabulary
-  rules/
-    conventions.md              — hard rules + decisions taken
-    known-bugs.md               — pinned regressions + gotchas
-  reference/
-    codebase-map.md             — this file
-  planning/
-    acceptance-grafite.md       — Part IV checklist (architect flips)
+app/
+  globals.css                   — Tailwind v4 import + pre-theme baseline
+  layout.tsx                    — root layout, <html>/<body>, metadata
+  page.tsx                      — placeholder home (superseded later)
+docs/                           — living docs (committed; see index.md)
+e2e/
+  smoke.spec.ts                 — Playwright: app boots & serves the shell
+lib/
+  env.ts                        — zod env validation (parseEnv/getEnv)
+  env.test.ts                   — env unit tests
+.github/
+  workflows/ci.yml              — quality · test · e2e · build jobs
+  workflows/deploy.yml          — CI-status deploy gate (Vercel does the deploy)
+  dependabot.yml                — weekly, grouped minor/patch, separate majors
+.env.example                    — documented env template
+.gitignore  .prettierrc.json  .prettierignore
+eslint.config.mjs               — flat config incl. no-colour-literal rule
+next.config.ts  postcss.config.mjs  tsconfig.json
+vitest.config.ts  vitest.setup.ts  playwright.config.ts
+pnpm-workspace.yaml             — pnpm build-allowlist (esbuild, unrs-resolver)
+package.json  pnpm-lock.yaml
 ```
 
-Application code is added from Phase 1 onward; this map is completed in §III.10.
+Later phases add `db/`, `services/`, `components/`, `themes/`, more `app/`
+routes, and `e2e/` specs. This map is completed from the real tree in §III.10.

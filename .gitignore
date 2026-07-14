@@ -1,0 +1,30 @@
+# dependencies
+/node_modules
+.pnpm-store
+
+# next.js
+/.next
+/out
+next-env.d.ts
+
+# production build
+/build
+
+# test / coverage
+/coverage
+/playwright-report
+/test-results
+/blob-report
+/.playwright
+
+# env — everything except the committed example
+.env
+.env.*
+!.env.example
+
+# misc
+*.tsbuildinfo
+.DS_Store
+.vercel
+*.log
+npm-debug.log*
