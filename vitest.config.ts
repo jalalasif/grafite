@@ -1,5 +1,6 @@
 import { defineConfig } from "vitest/config";
 import react from "@vitejs/plugin-react";
+import { fileURLToPath } from "node:url";
 
 /**
  * Two projects:
@@ -13,11 +14,15 @@ import react from "@vitejs/plugin-react";
  * (§II.10 E2E) are intentionally outside the unit-coverage denominator; see
  * docs/rules/conventions.md (DT-6).
  */
+const alias = { "@": fileURLToPath(new URL("./", import.meta.url)) };
+
 export default defineConfig({
+  resolve: { alias },
   test: {
     passWithNoTests: true,
     projects: [
       {
+        resolve: { alias },
         plugins: [react()],
         test: {
           name: "unit",
@@ -31,6 +36,7 @@ export default defineConfig({
         },
       },
       {
+        resolve: { alias },
         test: {
           name: "integration",
           environment: "node",

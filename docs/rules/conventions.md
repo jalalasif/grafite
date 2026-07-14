@@ -62,8 +62,23 @@ schema → lib`. Never upward. (§II.4)
 - **DT-3 — `frontend-design` skill absent.** The §II.9-referenced skill file does
   not exist in this environment. Design plan reasoned directly from the brief;
   recorded in `design.md`.
-- **DT-4 — Integration DB engine.** (Recorded in III.3 — pglite vs Docker Postgres,
-  decided after verifying `tsvector` generated-column support.)
+- **DT-4 — Integration DB engine = pglite.** Verified before committing that
+  pglite (in-process Postgres, PG16 base) applies the whole schema and handles
+  the **generated `tsvector` column** (populated; `ts_rank_cd`/`websearch_to_tsquery`
+  work), the **partial unique indexes** (soft-deleted slug reusable), and the
+  **check constraint** (rejects `is_daily` without a date). No Docker/service
+  container needed for CI (§II.10). Tests migrate from the committed migration
+  files and roll each test back in a transaction.
+- **DT-9 — Tag descendant rollup via prefix, not a recursive CTE.** Since tag
+  names are materialised full paths, `noteIdsUnderPath` matches `name = path OR
+left(name, len+1) = path||'/'` instead of a `parent_id` recursive CTE.
+  Equivalent given materialised names, `_`/`%`-safe (unlike LIKE), and avoids a
+  raw CTE's driver-specific result shape. (§II.6.2 suggested a CTE.)
+- **DT-10 — Repositories are driver-agnostic via `PgDatabase`.** The `Db` type
+  (db/client.ts) is the base `PgDatabase`, which Neon-HTTP, pglite, and a
+  transaction all satisfy — so the same repository code runs in prod, in tests,
+  and inside the PATCH-cascade transaction. Vitest resolves the `@/` path alias
+  via `resolve.alias` (added per-project in vitest.config.ts).
 - **DT-5 — Blob/Neon credentials absent.** Both external services are mocked behind
   an interface for tests; real adapters call the SDKs. Listed in the final report's
   NOT DONE / OWED VERIFICATION.
